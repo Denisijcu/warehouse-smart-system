@@ -2,9 +2,9 @@
 FROM node:20-alpine
 
 # Establecer el directorio de trabajo
-WORKDIR /app
+WORKDIR /app/backend-warehouse
 
-# Copiar package.json y package-lock.json
+# Copiar package.json y package-lock.json (ahora están en la ruta correcta)
 COPY package*.json ./
 
 # Instalar dependencias
