@@ -204,18 +204,3 @@ Para más información o soporte técnico, contacta a:
 > **"Warehouse AI" — No solo gestionas inventario, vendes experiencias.**
 ```
 
----
-
-## ✅ ¿Qué sigue?
-
-1. **Toma capturas de pantalla** de tu sistema (Dashboard, Tienda, Detalle, Chatbot).
-2. **Sustituye los placeholders** del README por las imágenes reales.
-3. **Haz el commit y push** del README:
-
-```bash
-git add README.md
-git commit -m "📄 Agregado README.md profesional"
-git push
-```
-
----
