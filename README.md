@@ -1,7 +1,4 @@
 
----
-
-## 📄 `README.md` (Copia y pega esto en `F:\warehouse\README.md`)
 
 ```markdown
 # 🏢 Warehouse AI — Sistema de Gestión de Inventario Inteligente
