@@ -1,6 +1,3 @@
-¡Perfecto, hermano! Aquí tienes el **`README.md` profesional** para la raíz de tu proyecto (`F:\warehouse\README.md`). 
-
-Este README está diseñado para **impresionar a cualquier reclutador, cliente o inversor** que visite tu repositorio de GitHub. Incluye la arquitectura, el stack tecnológico, cómo correrlo y capturas de pantalla.
 
 ---
 
