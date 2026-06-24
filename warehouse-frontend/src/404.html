@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Warehouse</title>
+  <script>
+    // Redirige todas las rutas a index.html para que Angular maneje el 404
+    var segmentCount = 0;
+    var location = window.location;
+    sessionStorage.setItem('redirect', location.pathname);
+    window.location = '/index.html';
+  </script>
+</head>
+<body>
+  <noscript>Redirigiendo...</noscript>
+</body>
+</html>

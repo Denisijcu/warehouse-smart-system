@@ -1,0 +1,14 @@
+# Dependencias
+node_modules/
+package-lock.json
+
+# Archivos de compilación
+dist/
+.angular/
+
+# Archivos de sistema
+.DS_Store
+
+# Archivos de configuración local
+.env
+.env.local
