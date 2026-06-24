@@ -15,7 +15,8 @@ const PORT = process.env.PORT || 3000;
 app.use(helmet());
 
 const corsOptions = {
-  origin: ['https://vertex-sm-warehouse.netlify.app/', 'https://warehouse-smart-system-production.up.railway.app'],
+  // ✅ Quitamos la barra final de la URL de Netlify
+  origin: ['https://vertex-sm-warehouse.netlify.app', 'https://warehouse-smart-system-production.up.railway.app'],
   credentials: true
 };
 app.use(cors(corsOptions));
