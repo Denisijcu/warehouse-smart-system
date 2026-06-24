@@ -1,0 +1,14 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Entornos
+.env
+.env.local
+.env.production
+
+# Ignoramos imágenes subidas (opcional, si quieres que estén en el repo, quita esta línea)
+**/uploads/
+
+# Ignoramos el docker-compose si quieres subirlo, quita la siguiente línea
+docker-compose.yml
