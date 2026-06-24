@@ -1,0 +1,4 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend-warehouse/Dockerfile"
+buildContext = "backend-warehouse"
