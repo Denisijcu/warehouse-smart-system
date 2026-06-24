@@ -14,10 +14,11 @@ const PORT = process.env.PORT || 3000;
 // Middlewares
 app.use(helmet());
 
-app.use(cors({
-  origin: '*',
+const corsOptions = {
+  origin: ['https://vertex-sm-warehouse.netlify.app/', 'https://warehouse-smart-system-production.up.railway.app'],
   credentials: true
-}));
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(morgan('dev'));

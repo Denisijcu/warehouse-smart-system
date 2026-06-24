@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators'; // Asegúrate de importar esto
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
-    private apiUrl = 'http://localhost:3000/api';
+    private apiUrl = 'https://warehouse-smart-system-production.up.railway.app/api'
 
     // Señales reactivas
     products = signal<Product[]>([]);

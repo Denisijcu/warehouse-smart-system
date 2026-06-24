@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api/users';
+private apiUrl = 'https://warehouse-smart-system-production.up.railway.app/api'
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<any[]> { return this.http.get<any[]>(this.apiUrl); }

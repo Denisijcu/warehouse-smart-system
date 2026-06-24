@@ -7,7 +7,7 @@ import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = 'https://warehouse-smart-system-production.up.railway.app/api/auth';
   currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
