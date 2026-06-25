@@ -4,11 +4,23 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-private apiUrl = 'https://warehouse-smart-system-production.up.railway.app/api'
+  private apiUrl = 'https://warehouse-smart-system-production.up.railway.app/api/users';
+
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<any[]> { return this.http.get<any[]>(this.apiUrl); }
-  createUser(user: any): Observable<any> { return this.http.post(this.apiUrl, user); }
-  updateUser(id: string, user: any): Observable<any> { return this.http.put(`${this.apiUrl}/${id}`, user); }
-  deleteUser(id: string): Observable<any> { return this.http.delete(`${this.apiUrl}/${id}`); }
+  getUsers(): Observable<any[]> { 
+    return this.http.get<any[]>(this.apiUrl); 
+  }
+
+  createUser(user: any): Observable<any> { 
+    return this.http.post(this.apiUrl, user); 
+  }
+
+  updateUser(id: string, user: any): Observable<any> { 
+    return this.http.put(`${this.apiUrl}/${id}`, user); 
+  }
+
+  deleteUser(id: string): Observable<any> { 
+    return this.http.delete(`${this.apiUrl}/${id}`); 
+  }
 }

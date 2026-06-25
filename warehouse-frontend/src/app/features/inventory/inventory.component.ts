@@ -143,13 +143,16 @@ export class InventoryComponent implements OnInit {
     this.inventoryService.loadSuppliers();
   }
 
-  getProductImage(product: any): string {
+    getProductImage(product: any): string {
     const images = product.ProductImages || product.productImages || product.images;
     if (images && images.length > 0) {
       const mainImage = images.find((img: any) => img.isMain) || images[0];
-      return mainImage.imageUrl;
+      // 🔥 CORRECCIÓN: Reemplazar localhost por la URL de Railway
+      return mainImage.imageUrl.replace('http://localhost:3000', 'https://warehouse-smart-system-production.up.railway.app');
     }
-    return product.imageUrl || 'https://images.unsplash.com/photo-1504145554044-1f1f9b0c5f8a?w=600&h=600&fit=crop&crop=center';
+    // 🔥 CORRECCIÓN: También reemplazar en la imagen por defecto si existe
+    const fallback = product.imageUrl || 'https://images.unsplash.com/photo-1504145554044-1f1f9b0c5f8a?w=600&h=600&fit=crop&crop=center';
+    return fallback.replace('http://localhost:3000', 'https://warehouse-smart-system-production.up.railway.app');
   }
 
   onFilesSelected(event: any) {

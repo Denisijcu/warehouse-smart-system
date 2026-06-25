@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
@@ -8,9 +8,17 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [RouterModule, CommonModule],
   template: `
-    <div class="flex h-screen bg-[#0C0E14] text-[#F0F1F5] font-sans overflow-hidden">
+    <div class="flex h-screen bg-[#0C0E14] text-[#F0F1F5] font-sans overflow-hidden relative">
       
-      <aside class="w-[260px] flex-shrink-0 bg-gradient-to-b from-[#0F1219] to-[#0C0E14] border-r border-[#252836] flex flex-col z-40">
+      <!-- ☰ Botón hamburguesa (solo visible en móvil) -->
+      <button (click)="toggleSidebar()" 
+              class="fixed top-4 left-4 z-50 p-2 bg-[#151820] border border-[#252836] rounded-lg text-[#FF6B00] lg:hidden hover:bg-[#252836] transition-colors">
+        <i class="fas" [ngClass]="isSidebarOpen() ? 'fa-times' : 'fa-bars'"></i>
+      </button>
+
+      <!-- Sidebar -->
+      <aside class="w-[260px] flex-shrink-0 bg-gradient-to-b from-[#0F1219] to-[#0C0E14] border-r border-[#252836] flex flex-col z-40 transition-all duration-300 fixed lg:relative top-0 left-0 h-full"
+           [ngClass]="isSidebarOpen() ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
         
         <div class="p-6 border-b border-[#252836]">
           <div class="flex items-center gap-3">
@@ -53,17 +61,26 @@ import { AuthService } from '../services/auth.service';
         </div>
       </aside>
 
-      <div class="flex-1 flex flex-col relative overflow-hidden">
+      <!-- Fondo oscuro cuando el menú está abierto en móvil -->
+      @if (isSidebarOpen() && windowWidth() < 1024) {
+        <div class="fixed inset-0 bg-black/50 z-30 lg:hidden" (click)="toggleSidebar()"></div>
+      }
+
+      <!-- Contenido principal -->
+      <div class="flex-1 flex flex-col relative overflow-hidden w-full">
         
-        <header class="h-[70px] min-h-[70px] bg-[#0F1219]/85 backdrop-blur-[20px] border-b border-[#252836] flex items-center justify-between px-8 z-30">
+        <header class="h-[70px] min-h-[70px] bg-[#0F1219]/85 backdrop-blur-[20px] border-b border-[#252836] flex items-center justify-between px-4 lg:px-8 z-30 transition-all duration-300"
+                [ngClass]="{'lg:pl-[260px]': isSidebarOpen() || windowWidth() >= 1024}">
           <h2 class="text-lg font-medium text-[#F0F1F5]">
             Bienvenido, <span class="text-[#FF6B00]">{{ authService.currentUser()?.name || 'Usuario' }}</span> 👋
           </h2>
           <div class="flex items-center gap-4">
-            </div>
+            <!-- Espacio para notificaciones o perfil en el futuro -->
+          </div>
         </header>
 
-        <main class="flex-1 overflow-y-auto p-8 relative z-10 custom-scrollbar">
+        <main class="flex-1 overflow-y-auto p-4 lg:p-8 relative z-10 custom-scrollbar transition-all duration-300"
+              [ngClass]="{'lg:pl-[260px]': isSidebarOpen() || windowWidth() >= 1024}">
           <div class="fixed top-[-200px] right-[-150px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(255,107,0,0.05)_0%,transparent_70%)] pointer-events-none -z-10"></div>
           
           <router-outlet></router-outlet>
@@ -82,29 +99,35 @@ import { AuthService } from '../services/auth.service';
 })
 export class LayoutComponent {
   authService = inject(AuthService);
+  isSidebarOpen = signal(false); // Por defecto cerrado en móvil
+  windowWidth = signal(window.innerWidth);
 
-  // 📌 Definición completa del menú (con roles permitidos)
+  @HostListener('window:resize')
+  onResize() {
+    this.windowWidth.set(window.innerWidth);
+  }
   private fullMenu = [
     { route: '/dashboard', icon: '🏠', label: 'Dashboard', roles: ['admin', 'operator'] },
     { route: '/pasillos', icon: '🛣️', label: 'Pasillos', roles: ['admin', 'operator'] },
     { route: '/usuarios', icon: '👥', label: 'Usuarios', roles: ['admin'] },
-    { route: '/inventory', icon: '📦', label: 'Inventario', roles: ['admin', 'operator','guest'] },
+    { route: '/inventory', icon: '📦', label: 'Inventario', roles: ['admin', 'operator', 'guest'] },
     { route: '/movements', icon: '🔄', label: 'Movimientos', roles: ['admin', 'operator'] },
     { route: '/suppliers', icon: '🤝', label: 'Proveedores', roles: ['admin', 'operator'] },
     { route: '/reports', icon: '📊', label: 'Reportes', roles: ['admin', 'operator'] },
     { route: '/ai-asistente', icon: '🤖', label: 'Asistente AI', roles: ['admin', 'operator', 'guest'] },
     { route: '/alertas', icon: '🔔', label: 'Alertas', roles: ['admin', 'operator'] },
     { route: '/configuracion', icon: '⚙️', label: 'Configuración', roles: ['admin'] },
-   // { route: '/store', icon: '🛒', label: 'Tienda', roles: ['admin', 'operator', 'guest'] },
-   // { route: '/categories', icon: '🏷️', label: 'Categorías', roles: ['admin', 'operator', 'guest'] },
+    //{ route: '/store', icon: '🛒', label: 'Tienda', roles: ['admin', 'operator', 'guest'] },
+  // { route: '/categories', icon: '🏷️', label: 'Categorías', roles: ['admin', 'operator', 'guest'] },
   ];
 
-  // 🛡️ Menú filtrado según el rol del usuario actual
   filteredMenu = computed(() => {
     const user = this.authService.currentUser();
     const role = user?.role || 'guest';
-    
-    // Filtrar solo los ítems que el rol puede ver
     return this.fullMenu.filter(item => item.roles.includes(role));
   });
+
+  toggleSidebar() {
+    this.isSidebarOpen.update(v => !v);
+  }
 }

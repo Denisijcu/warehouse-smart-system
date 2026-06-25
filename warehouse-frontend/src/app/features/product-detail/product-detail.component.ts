@@ -209,19 +209,18 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  loadProductImages(prod: any) {
+    loadProductImages(prod: any) {
     // Buscar el array de imágenes
     const imagesArray = prod.ProductImages || prod.productImages || prod.images || [];
     
     if (imagesArray.length > 0) {
-      // ✅ CORRECCIÓN: Usar 'imageUrl' en lugar de 'url'
+      // 🔥 CORRECCIÓN FINAL: Reemplazar localhost por la URL de Railway
       const mapped = imagesArray.map((img: any) => ({
-        url: img.imageUrl || img.url
+        url: img.imageUrl.replace('http://localhost:3000', 'https://warehouse-smart-system-production.up.railway.app')
       }));
       this.productImages.set(mapped);
       this.activeImage.set(mapped[0].url);
     } else {
-      // Fallback estético
       const fallbackUrl = 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&h=450&fit=crop';
       this.productImages.set([{ url: fallbackUrl }]);
       this.activeImage.set(fallbackUrl);

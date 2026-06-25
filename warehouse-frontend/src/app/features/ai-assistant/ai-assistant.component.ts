@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { InventoryService } from '../../core/services/inventory.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
-const API = environment.aiServiceUrl || environment.apiUrl;
+const API = environment.apiUrl || environment.apiUrl;
 
 @Component({
   selector: 'app-ai-assistant',
